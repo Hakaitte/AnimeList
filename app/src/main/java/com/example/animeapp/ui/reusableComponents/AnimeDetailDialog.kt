@@ -2,6 +2,7 @@ package com.example.animeapp.ui.reusableComponents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -9,10 +10,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,85 +28,155 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.animeapp.data.UserAnimeStatus
 import com.example.animeapp.model.Anime
 
 @Composable
 fun AnimeDetailDialog(
     anime: Anime,
+    initialUserScore: Int?,
+    initialStatus: UserAnimeStatus,
     onDismissRequest: () -> Unit,
-    onAddToWatching: () -> Unit,
-    onAddToPlanning: () -> Unit,
-    onAddToCompleted: () -> Unit,
-    onAddToOnHold: () -> Unit,
-    onAddToDropped: () -> Unit
+    onStatusChange: (newStatus: UserAnimeStatus, newScore: Int?) -> Unit,
+    onRemoveFromList: () -> Unit
 ) {
+    var selectedUiStatus by remember { mutableStateOf(initialStatus) }
+    var currentRatingInDialog by remember { mutableStateOf(initialUserScore ?: 0) }
+
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {
-            Text(
-                text = anime.title,
-                style = MaterialTheme.typography.headlineSmall, // Użyj stylu z tematu
-                fontWeight = FontWeight.Bold,
-                maxLines = 2
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = anime.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    modifier = Modifier.weight(1f, fill = false)
+                )
+            }
         },
         text = {
-            // Użyj LazyColumn, jeśli zawartość może być długa i wymagać przewijania
             LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                item {
+                item(key = "dialog_image_${anime.malId}") {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            // Spróbuj najpierw duży obrazek, potem standardowy
                             .data(anime.images.jpg.largeImageUrl ?: anime.images.jpg.imageUrl ?: anime.images.webp.largeImageUrl ?: anime.images.webp.imageUrl)
                             .crossfade(true)
-                            .error(android.R.drawable.stat_notify_error) // Lepsza ikona błędu
-                            .placeholder(android.R.drawable.stat_sys_download) // Lepszy placeholder ładowania
+                            .error(android.R.drawable.stat_notify_error)
+                            .placeholder(android.R.drawable.stat_sys_download)
                             .build(),
                         contentDescription = "Plakat ${anime.title}",
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(min = 150.dp, max = 300.dp) // Min i max wysokość
+                            .heightIn(min = 150.dp, max = 270.dp)
                             .padding(bottom = 16.dp)
-                            .clip(RoundedCornerShape(12.dp)) // Większe zaokrąglenie
+                            .clip(RoundedCornerShape(12.dp))
                     )
                 }
 
-                // Sekcja z przyciskami
-                item {
+                item(key = "dialog_user_rating_stars_${anime.malId}") {
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Twoja ocena: ${if (currentRatingInDialog > 0) "${currentRatingInDialog / 2.0} / 5.0" else "Brak"}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(bottom = 6.dp)
+                        )
+                        StarRatingInput( // Użycie komponentu
+                            rating = currentRatingInDialog, // Przekazanie aktualnej oceny z dialogu
+                            onRatingChange = { newRating -> // Implementacja callbacku
+                                // Gdy StarRatingInput wywoła onRatingChange,
+                                // aktualizujemy stan `currentRatingInDialog` w AnimeDetailDialog
+                                currentRatingInDialog = newRating
+                            },
+                            starSize = 32.dp
+                        )
+                    }
+                }
+
+                item(key = "dialog_status_buttons_${anime.malId}") {
                     Column(
                         modifier = Modifier.padding(top = 8.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp) // Odstępy między przyciskami
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        DialogButton(text = "Oglądam", onClick = onAddToWatching)
-                        DialogButton(text = "Planuję obejrzeć", onClick = onAddToPlanning)
-                        DialogButton(text = "Obejrzane", onClick = onAddToCompleted)
-                        DialogButton(text = "Wstrzymane", onClick = onAddToOnHold)
-                        DialogButton(text = "Porzucone", onClick = onAddToDropped)
+                        val statuses = UserAnimeStatus.values().filter { it != UserAnimeStatus.NONE }
+                        statuses.forEach { status ->
+                            DialogButton(
+                                text = status.name.replace("_", " ").lowercase()
+                                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
+                                onClick = {
+                                    // TUTAJ AKTUALIZUJEMY STAN WYBRANEGO PRZYCISKU W UI
+                                    selectedUiStatus = status
+                                },
+                                // TUTAJ PRZEKAZUJEMY, CZY PRZYCISK MA BYĆ PODŚWIETLONY
+                                isSelected = selectedUiStatus == status
+                            )
+                        }
                     }
                 }
             }
         },
         confirmButton = {
-            // Możemy użyć tego do głównego przycisku "Zamknij", jeśli nie chcemy go na dole.
-            // Lub zostawić puste, jeśli przyciski akcji są w 'text'.
+            TextButton(
+                onClick = {
+                    if (currentRatingInDialog == 0) null else currentRatingInDialog
+                    if (selectedUiStatus != UserAnimeStatus.NONE || (initialStatus != UserAnimeStatus.NONE && currentRatingInDialog != initialUserScore)) {
+                        val statusToSave = selectedUiStatus // Zawsze używaj tego, co jest wybrane w UI
+
+                        if(statusToSave != UserAnimeStatus.NONE || currentRatingInDialog != null){
+                            onStatusChange(statusToSave, currentRatingInDialog)
+                        } else if (statusToSave == UserAnimeStatus.NONE && initialStatus != UserAnimeStatus.NONE && currentRatingInDialog == null && initialUserScore == null) {
+                            onStatusChange(statusToSave, currentRatingInDialog) // Przykład: Pozwól zapisać NONE, jeśli tak zdecydujesz
+                        }
+                    } else if (initialStatus == UserAnimeStatus.NONE && selectedUiStatus != UserAnimeStatus.NONE) {
+                        // Dodawanie nowego, jeśli wcześniej był NONE
+                        onStatusChange(selectedUiStatus, currentRatingInDialog)
+                    }
+                    onDismissRequest()
+                }
+            ) {
+                Text("Zastosuj")
+            }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
                 Text("Anuluj")
             }
         },
-        modifier = Modifier.padding(16.dp) // Dodaj padding do całego dialogu
+        modifier = Modifier.padding(16.dp)
     )
 }
 
-// Pomocniczy Composable dla przycisków w dialogu, aby uniknąć powtórzeń
 @Composable
-private fun DialogButton(text: String, onClick: () -> Unit) {
+private fun DialogButton(
+    text: String,
+    onClick: () -> Unit,
+    isSelected: Boolean
+) {
     Button(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp) // Zaokrąglone rogi dla przycisków
+        shape = RoundedCornerShape(8.dp),
+        colors = if (isSelected) {
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
+        } else {
+            ButtonDefaults.buttonColors(
+                // Możesz użyć secondaryContainer lub surfaceVariant dla mniej wyróżniających się przycisków
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
     ) {
         Text(text)
     }

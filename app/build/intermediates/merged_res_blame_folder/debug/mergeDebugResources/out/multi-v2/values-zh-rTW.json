@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.animeapp-mergeDebugResources-55:/values-zh-rTW/values-zh-rTW.xml",
+            "outputFile": "com.example.animeapp-mergeDebugResources-60:/values-zh-rTW/values-zh-rTW.xml",
             "map": [
                 {
                     "source": "C:\\Users\\natha\\.gradle\\caches\\8.11.1\\transforms\\6fc0b20dc4f528f3f7003cb80f4624e7\\transformed\\ui-release\\res\\values-zh-rTW\\values-zh-rTW.xml",

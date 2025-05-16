@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.animeapp-mergeDebugResources-55:/values-sl/values-sl.xml",
+            "outputFile": "com.example.animeapp-mergeDebugResources-60:/values-sl/values-sl.xml",
             "map": [
                 {
                     "source": "C:\\Users\\natha\\.gradle\\caches\\8.11.1\\transforms\\36fea4aff8227b71946e85198468d985\\transformed\\core-1.15.0\\res\\values-sl\\values-sl.xml",

@@ -14,7 +14,6 @@ import java.lang.NullPointerException
 import kotlin.Int
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import kotlin.collections.emptySet
 import kotlin.text.buildString
 
@@ -28,10 +27,10 @@ public class EntityJsonAdapter(
   private val stringAdapter: JsonAdapter<String> = moshi.adapter(String::class.java, emptySet(),
       "type")
 
-  public override fun toString(): String = buildString(28) {
+  override fun toString(): String = buildString(28) {
       append("GeneratedJsonAdapter(").append("Entity").append(')') }
 
-  public override fun fromJson(reader: JsonReader): Entity {
+  override fun fromJson(reader: JsonReader): Entity {
     var malId: Int? = null
     var type: String? = null
     var name: String? = null
@@ -62,7 +61,7 @@ public class EntityJsonAdapter(
     )
   }
 
-  public override fun toJson(writer: JsonWriter, value_: Entity?): Unit {
+  override fun toJson(writer: JsonWriter, value_: Entity?) {
     if (value_ == null) {
       throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
     }

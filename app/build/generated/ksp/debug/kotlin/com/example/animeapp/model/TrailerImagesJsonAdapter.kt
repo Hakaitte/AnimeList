@@ -12,7 +12,6 @@ import com.squareup.moshi.Moshi
 import java.lang.NullPointerException
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import kotlin.collections.emptySet
 import kotlin.text.buildString
 
@@ -25,10 +24,10 @@ public class TrailerImagesJsonAdapter(
   private val nullableStringAdapter: JsonAdapter<String?> = moshi.adapter(String::class.java,
       emptySet(), "imageUrl")
 
-  public override fun toString(): String = buildString(35) {
+  override fun toString(): String = buildString(35) {
       append("GeneratedJsonAdapter(").append("TrailerImages").append(')') }
 
-  public override fun fromJson(reader: JsonReader): TrailerImages {
+  override fun fromJson(reader: JsonReader): TrailerImages {
     var imageUrl: String? = null
     var smallImageUrl: String? = null
     var mediumImageUrl: String? = null
@@ -59,7 +58,7 @@ public class TrailerImagesJsonAdapter(
     )
   }
 
-  public override fun toJson(writer: JsonWriter, value_: TrailerImages?): Unit {
+  override fun toJson(writer: JsonWriter, value_: TrailerImages?) {
     if (value_ == null) {
       throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
     }

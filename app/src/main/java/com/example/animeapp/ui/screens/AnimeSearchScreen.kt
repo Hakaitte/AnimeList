@@ -1,4 +1,4 @@
-package com.example.animeapp.ui.screens.anime // lub inna ścieżka
+package com.example.animeapp.ui.screens
 
 import android.util.Log
 import android.widget.Toast
@@ -45,10 +45,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.animeapp.AnimeListViewModel
+import com.example.animeapp.data.UserAnimeStatus
 import com.example.animeapp.model.Anime
 import com.example.animeapp.model.AnimeResponse
 import com.example.animeapp.model.ImageUrls
@@ -63,25 +67,23 @@ import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnimeSearchScreen(navController: NavController) {
+fun AnimeSearchScreen(
+    navController: NavController = rememberNavController(),
+    animeListViewModel: AnimeListViewModel = viewModel()
+) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     var animeList by remember { mutableStateOf<List<Anime>>(emptyList()) }
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var searchPerformed by remember { mutableStateOf(false) }
     var isSfwChecked by remember { mutableStateOf(true) }
-
     var showAnimeDetailDialog by remember { mutableStateOf(false) }
     var selectedAnimeForDialog by remember { mutableStateOf<Anime?>(null) }
+    val context = LocalContext.current
 
-    val context = LocalContext.current // Pobierz kontekst dla Toast
-
-    // Funkcja obsługująca kliknięcie elementu
-    val handleAnimeClick = { anime: Anime ->
-        selectedAnimeForDialog = anime
+    val handleAnimeClick = { animeFromApi: Anime ->
+        selectedAnimeForDialog = animeFromApi
         showAnimeDetailDialog = true
-        Log.d("AnimeSearchScreen", "Clicked on: ${anime.title} (ID: ${anime.malId}) for dialog")
-        Unit
     }
 
     fun performSearch(query: String, sfw: Boolean) {
@@ -229,73 +231,36 @@ fun AnimeSearchScreen(navController: NavController) {
             }
 
             if (showAnimeDetailDialog && selectedAnimeForDialog != null) {
-                AnimeDetailDialog( // To powinno teraz odnosić się do funkcji z nowego pliku
-                    anime = selectedAnimeForDialog!!,
+                val currentAnimeFromApi = selectedAnimeForDialog!!
+
+                val userAnimeEntityFromDb by animeListViewModel.getUserAnimeDetails(currentAnimeFromApi.malId)
+                    .collectAsStateWithLifecycle(initialValue = null)
+
+                // Wywołanie AnimeDetailDialog z poprawnymi parametrami
+                AnimeDetailDialog( // Nazwa funkcji musi pasować do tej zdefiniowanej w AnimeDetailDialog.kt
+                    anime = currentAnimeFromApi,
+                    initialUserScore = userAnimeEntityFromDb?.userScore,
+                    initialStatus = userAnimeEntityFromDb?.status ?: UserAnimeStatus.NONE,
                     onDismissRequest = { showAnimeDetailDialog = false },
-                    onAddToWatching = {
-                        Log.d(
-                            "AnimeDetailDialog",
-                            "Dodaj do 'Oglądam': ${selectedAnimeForDialog!!.title}"
+                    onStatusChange = { newStatus, newScore ->
+                        // Logika wywołania ViewModelu do zapisu/aktualizacji
+                        animeListViewModel.addOrUpdateUserAnime(
+                            animeFromApi = currentAnimeFromApi,
+                            status = newStatus,
+                            userScore = newScore
                         )
-                        showAnimeDetailDialog = false
+                        showAnimeDetailDialog = false // Zamknij dialog po akcji
                         Toast.makeText(
                             context,
-                            "${selectedAnimeForDialog!!.title} dodano do 'Oglądam'",
+                            "${currentAnimeFromApi.title} zapisano jako: ${newStatus.name.lowercase().replaceFirstChar { it.titlecase() }}, Ocena: ${newScore ?: "Brak"}",
                             Toast.LENGTH_SHORT
                         ).show()
-                        // TODO: Zaimplementuj logikę dodawania do bazy danych / ViewModelu
                     },
-                    onAddToPlanning = {
-                        Log.d(
-                            "AnimeDetailDialog",
-                            "Dodaj do 'Planuję obejrzeć': ${selectedAnimeForDialog!!.title}"
-                        )
-                        showAnimeDetailDialog = false
-                        Toast.makeText(
-                            context,
-                            "${selectedAnimeForDialog!!.title} dodano do 'Planuję obejrzeć'",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // TODO: Zaimplementuj logikę
-                    },
-                    onAddToCompleted = {
-                        Log.d(
-                            "AnimeDetailDialog",
-                            "Dodaj do 'Obejrzane': ${selectedAnimeForDialog!!.title}"
-                        )
-                        showAnimeDetailDialog = false
-                        Toast.makeText(
-                            context,
-                            "${selectedAnimeForDialog!!.title} dodano do 'Obejrzane'",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // TODO: Zaimplementuj logikę
-                    },
-                    onAddToOnHold = {
-                        Log.d(
-                            "AnimeDetailDialog",
-                            "Dodaj do 'Wstrzymane': ${selectedAnimeForDialog!!.title}"
-                        )
-                        showAnimeDetailDialog = false
-                        Toast.makeText(
-                            context,
-                            "${selectedAnimeForDialog!!.title} dodano do 'Wstrzymane'",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // TODO: Zaimplementuj logikę
-                    },
-                    onAddToDropped = {
-                        Log.d(
-                            "AnimeDetailDialog",
-                            "Dodaj do 'Porzucone': ${selectedAnimeForDialog!!.title}"
-                        )
-                        showAnimeDetailDialog = false
-                        Toast.makeText(
-                            context,
-                            "${selectedAnimeForDialog!!.title} dodano do 'Porzucone'",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // TODO: Zaimplementuj logikę
+                    onRemoveFromList = {
+                        // Logika wywołania ViewModelu do usunięcia
+                        animeListViewModel.removeAnimeFromList(currentAnimeFromApi.malId)
+                        showAnimeDetailDialog = false // Zamknij dialog po akcji
+                        Toast.makeText(context, "${currentAnimeFromApi.title} usunięto z listy", Toast.LENGTH_SHORT).show()
                     }
                 )
             }

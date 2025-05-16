@@ -13,7 +13,6 @@ import com.squareup.moshi.`internal`.Util
 import java.lang.NullPointerException
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import kotlin.collections.emptySet
 import kotlin.text.buildString
 
@@ -25,10 +24,10 @@ public class AiredPropJsonAdapter(
   private val airedDateAdapter: JsonAdapter<AiredDate> = moshi.adapter(AiredDate::class.java,
       emptySet(), "from")
 
-  public override fun toString(): String = buildString(31) {
+  override fun toString(): String = buildString(31) {
       append("GeneratedJsonAdapter(").append("AiredProp").append(')') }
 
-  public override fun fromJson(reader: JsonReader): AiredProp {
+  override fun fromJson(reader: JsonReader): AiredProp {
     var from: AiredDate? = null
     var to: AiredDate? = null
     reader.beginObject()
@@ -51,7 +50,7 @@ public class AiredPropJsonAdapter(
     )
   }
 
-  public override fun toJson(writer: JsonWriter, value_: AiredProp?): Unit {
+  override fun toJson(writer: JsonWriter, value_: AiredProp?) {
     if (value_ == null) {
       throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
     }

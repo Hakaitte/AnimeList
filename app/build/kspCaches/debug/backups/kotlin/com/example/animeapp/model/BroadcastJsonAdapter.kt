@@ -12,7 +12,6 @@ import com.squareup.moshi.Moshi
 import java.lang.NullPointerException
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import kotlin.collections.emptySet
 import kotlin.text.buildString
 
@@ -25,10 +24,10 @@ public class BroadcastJsonAdapter(
   private val nullableStringAdapter: JsonAdapter<String?> = moshi.adapter(String::class.java,
       emptySet(), "day")
 
-  public override fun toString(): String = buildString(31) {
+  override fun toString(): String = buildString(31) {
       append("GeneratedJsonAdapter(").append("Broadcast").append(')') }
 
-  public override fun fromJson(reader: JsonReader): Broadcast {
+  override fun fromJson(reader: JsonReader): Broadcast {
     var day: String? = null
     var time: String? = null
     var timezone: String? = null
@@ -56,7 +55,7 @@ public class BroadcastJsonAdapter(
     )
   }
 
-  public override fun toJson(writer: JsonWriter, value_: Broadcast?): Unit {
+  override fun toJson(writer: JsonWriter, value_: Broadcast?) {
     if (value_ == null) {
       throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
     }

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -42,8 +43,6 @@ android {
 
 dependencies {
     implementation(libs.androidx.navigation.compose)
-//    TODO: Retrofit and Moshi dependencies
-
 
     implementation(libs.google.fonts)
     implementation(libs.androidx.core.ktx)
@@ -54,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation("androidx.compose.material:material-icons-extended:1.6.7")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,6 +62,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.compose.runtime:runtime:1.6.7")
+    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.moshi)

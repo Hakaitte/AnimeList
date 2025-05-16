@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.animeapp-mergeDebugResources-55:/values-sk/values-sk.xml",
+            "outputFile": "com.example.animeapp-mergeDebugResources-60:/values-sk/values-sk.xml",
             "map": [
                 {
                     "source": "C:\\Users\\natha\\.gradle\\caches\\8.11.1\\transforms\\818c74884b9c198340f742c454c2048d\\transformed\\foundation-release\\res\\values-sk\\values-sk.xml",

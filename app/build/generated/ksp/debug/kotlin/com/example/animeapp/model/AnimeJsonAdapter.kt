@@ -17,7 +17,6 @@ import kotlin.Double
 import kotlin.Int
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import kotlin.collections.List
 import kotlin.collections.emptySet
 import kotlin.text.buildString
@@ -73,10 +72,10 @@ public class AnimeJsonAdapter(
       moshi.adapter(Types.newParameterizedType(List::class.java, Entity::class.java), emptySet(),
       "producers")
 
-  public override fun toString(): String = buildString(27) {
+  override fun toString(): String = buildString(27) {
       append("GeneratedJsonAdapter(").append("Anime").append(')') }
 
-  public override fun fromJson(reader: JsonReader): Anime {
+  override fun fromJson(reader: JsonReader): Anime {
     var malId: Int? = null
     var url: String? = null
     var images: Images? = null
@@ -219,7 +218,7 @@ public class AnimeJsonAdapter(
     )
   }
 
-  public override fun toJson(writer: JsonWriter, value_: Anime?): Unit {
+  override fun toJson(writer: JsonWriter, value_: Anime?) {
     if (value_ == null) {
       throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
     }

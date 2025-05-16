@@ -16,7 +16,6 @@ import java.lang.reflect.Constructor
 import kotlin.Int
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import kotlin.collections.List
 import kotlin.collections.emptySet
 import kotlin.jvm.Volatile
@@ -44,10 +43,10 @@ public class AnimeResponseJsonAdapter(
   @Volatile
   private var constructorRef: Constructor<AnimeResponse>? = null
 
-  public override fun toString(): String = buildString(35) {
+  override fun toString(): String = buildString(35) {
       append("GeneratedJsonAdapter(").append("AnimeResponse").append(')') }
 
-  public override fun fromJson(reader: JsonReader): AnimeResponse {
+  override fun fromJson(reader: JsonReader): AnimeResponse {
     var pagination: Pagination? = null
     var data_: List<Anime>? = null
     var status: Int? = null
@@ -127,7 +126,7 @@ public class AnimeResponseJsonAdapter(
     }
   }
 
-  public override fun toJson(writer: JsonWriter, value_: AnimeResponse?): Unit {
+  override fun toJson(writer: JsonWriter, value_: AnimeResponse?) {
     if (value_ == null) {
       throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
     }

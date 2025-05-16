@@ -15,7 +15,6 @@ import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 import kotlin.Suppress
-import kotlin.Unit
 import kotlin.collections.emptySet
 import kotlin.text.buildString
 
@@ -34,10 +33,10 @@ public class PaginationJsonAdapter(
   private val itemsAdapter: JsonAdapter<Items> = moshi.adapter(Items::class.java, emptySet(),
       "items")
 
-  public override fun toString(): String = buildString(32) {
+  override fun toString(): String = buildString(32) {
       append("GeneratedJsonAdapter(").append("Pagination").append(')') }
 
-  public override fun fromJson(reader: JsonReader): Pagination {
+  override fun fromJson(reader: JsonReader): Pagination {
     var lastVisiblePage: Int? = null
     var hasNextPage: Boolean? = null
     var currentPage: Int? = null
@@ -72,7 +71,7 @@ public class PaginationJsonAdapter(
     )
   }
 
-  public override fun toJson(writer: JsonWriter, value_: Pagination?): Unit {
+  override fun toJson(writer: JsonWriter, value_: Pagination?) {
     if (value_ == null) {
       throw NullPointerException("value_ was null! Wrap in .nullSafe() to write nullable values.")
     }

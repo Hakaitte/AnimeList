@@ -52,20 +52,25 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.7] C:\Users\n
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7] C:\Users\natha\.gradle\caches\8.11.1\transforms\52a1912630e29203bf6832f06c20882e\transformed\lifecycle-viewmodel-ktx-2.8.7\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.7] C:\Users\natha\.gradle\caches\8.11.1\transforms\9a4b3a8540e8063d68b5abadfd05929f\transformed\lifecycle-runtime-ktx-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.7] C:\Users\natha\.gradle\caches\8.11.1\transforms\dafd9990c040ea362bada903cfd58ee7\transformed\lifecycle-viewmodel-compose-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\cf4c76d789adf295375d341d4a1ee538\transformed\material-icons-extended-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\04d7ffe26a15f509d6e6a3a40408faf8\transformed\material-icons-core-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.ui:ui-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\6fc0b20dc4f528f3f7003cb80f4624e7\transformed\ui-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.ui:ui-test-manifest:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\a4a3c57650c64ec8c514e0c41686c418\transformed\ui-test-manifest-1.7.8\AndroidManifest.xml:17:1-28:12
 MERGED from [androidx.compose.ui:ui-text-google-fonts:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\66074a9ba9c33d2d47fa4837783a5e4e\transformed\ui-text-google-fonts-1.7.8\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.room:room-ktx:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\1b6bb18a5b4a2e10e218fae806ce2c0f\transformed\room-ktx-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\f4566323866f2cc410cd604daab5a803\transformed\sqlite-framework-2.4.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite:2.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\aebce968878418dc0283fde601da8ec3\transformed\sqlite-2.4.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\9a9be1e92db3816b521d6bea76bc4d11\transformed\runtime-saveable-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.runtime:runtime-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\af20e625c4b461affc1d95f2972c84d2\transformed\runtime-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\b0fb1fe7c2048dac4502fcf725d84c1e\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\5b410a22ccf57d1bae14fd33520d1eb2\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\c6a8075a5a76184d6eb5ad952bc870c3\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\27279d6e8d6c256a499201da5b49f5b0\transformed\profileinstaller-1.4.0\AndroidManifest.xml:17:1-55:12
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\ec909783bfca3674fe585e09da8fe950\transformed\startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.tracing:tracing:1.2.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\7f9d06b06cf47adcdc68af14f99c99ba\transformed\tracing-1.2.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\7b6fbbe21b1086fc61013997d8a4d65c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.exifinterface:exifinterface:1.3.6] C:\Users\natha\.gradle\caches\8.11.1\transforms\ab87efc5c4434ace5f9604d3c8832b8c\transformed\exifinterface-1.3.6\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\5b410a22ccf57d1bae14fd33520d1eb2\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\d80998782ff0f6de05c8401279e1d69a\transformed\core-viewtree-1.0.0\AndroidManifest.xml:2:1-7:12
 	package
 		INJECTED from C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml
@@ -94,6 +99,8 @@ MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\natha\.gradle\
 MERGED from [androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\natha\.gradle\caches\8.11.1\transforms\6be948f800cb85d6f31c7950ad2ba04c\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.compose.ui:ui-test-manifest:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\a4a3c57650c64ec8c514e0c41686c418\transformed\ui-test-manifest-1.7.8\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-test-manifest:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\a4a3c57650c64ec8c514e0c41686c418\transformed\ui-test-manifest-1.7.8\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:23:5-29:19
+MERGED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:23:5-29:19
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\27279d6e8d6c256a499201da5b49f5b0\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\27279d6e8d6c256a499201da5b49f5b0\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\ec909783bfca3674fe585e09da8fe950\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
@@ -240,6 +247,8 @@ MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.7] C:\Users\na
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.7] C:\Users\natha\.gradle\caches\8.11.1\transforms\9a4b3a8540e8063d68b5abadfd05929f\transformed\lifecycle-runtime-ktx-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.7] C:\Users\natha\.gradle\caches\8.11.1\transforms\dafd9990c040ea362bada903cfd58ee7\transformed\lifecycle-viewmodel-compose-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.7] C:\Users\natha\.gradle\caches\8.11.1\transforms\dafd9990c040ea362bada903cfd58ee7\transformed\lifecycle-viewmodel-compose-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\cf4c76d789adf295375d341d4a1ee538\transformed\material-icons-extended-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\cf4c76d789adf295375d341d4a1ee538\transformed\material-icons-extended-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\04d7ffe26a15f509d6e6a3a40408faf8\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\04d7ffe26a15f509d6e6a3a40408faf8\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\6fc0b20dc4f528f3f7003cb80f4624e7\transformed\ui-release\AndroidManifest.xml:5:5-44
@@ -248,12 +257,22 @@ MERGED from [androidx.compose.ui:ui-test-manifest:1.7.8] C:\Users\natha\.gradle\
 MERGED from [androidx.compose.ui:ui-test-manifest:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\a4a3c57650c64ec8c514e0c41686c418\transformed\ui-test-manifest-1.7.8\AndroidManifest.xml:20:5-44
 MERGED from [androidx.compose.ui:ui-text-google-fonts:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\66074a9ba9c33d2d47fa4837783a5e4e\transformed\ui-text-google-fonts-1.7.8\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-text-google-fonts:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\66074a9ba9c33d2d47fa4837783a5e4e\transformed\ui-text-google-fonts-1.7.8\AndroidManifest.xml:5:5-44
+MERGED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-ktx:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\1b6bb18a5b4a2e10e218fae806ce2c0f\transformed\room-ktx-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-ktx:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\1b6bb18a5b4a2e10e218fae806ce2c0f\transformed\room-ktx-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\f4566323866f2cc410cd604daab5a803\transformed\sqlite-framework-2.4.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\f4566323866f2cc410cd604daab5a803\transformed\sqlite-framework-2.4.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\aebce968878418dc0283fde601da8ec3\transformed\sqlite-2.4.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\aebce968878418dc0283fde601da8ec3\transformed\sqlite-2.4.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\9a9be1e92db3816b521d6bea76bc4d11\transformed\runtime-saveable-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\9a9be1e92db3816b521d6bea76bc4d11\transformed\runtime-saveable-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\af20e625c4b461affc1d95f2972c84d2\transformed\runtime-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-android:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\af20e625c4b461affc1d95f2972c84d2\transformed\runtime-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\b0fb1fe7c2048dac4502fcf725d84c1e\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\b0fb1fe7c2048dac4502fcf725d84c1e\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\5b410a22ccf57d1bae14fd33520d1eb2\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\5b410a22ccf57d1bae14fd33520d1eb2\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\c6a8075a5a76184d6eb5ad952bc870c3\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\c6a8075a5a76184d6eb5ad952bc870c3\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\27279d6e8d6c256a499201da5b49f5b0\transformed\profileinstaller-1.4.0\AndroidManifest.xml:21:5-44
@@ -266,8 +285,6 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\na
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\7b6fbbe21b1086fc61013997d8a4d65c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.exifinterface:exifinterface:1.3.6] C:\Users\natha\.gradle\caches\8.11.1\transforms\ab87efc5c4434ace5f9604d3c8832b8c\transformed\exifinterface-1.3.6\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.exifinterface:exifinterface:1.3.6] C:\Users\natha\.gradle\caches\8.11.1\transforms\ab87efc5c4434ace5f9604d3c8832b8c\transformed\exifinterface-1.3.6\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\5b410a22ccf57d1bae14fd33520d1eb2\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\5b410a22ccf57d1bae14fd33520d1eb2\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\d80998782ff0f6de05c8401279e1d69a\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\d80998782ff0f6de05c8401279e1d69a\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44
 	android:targetSdkVersion
@@ -334,6 +351,16 @@ ADDED from [androidx.compose.ui:ui-test-manifest:1.7.8] C:\Users\natha\.gradle\c
 		ADDED from [androidx.compose.ui:ui-test-manifest:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\a4a3c57650c64ec8c514e0c41686c418\transformed\ui-test-manifest-1.7.8\AndroidManifest.xml:25:13-36
 	android:name
 		ADDED from [androidx.compose.ui:ui-test-manifest:1.7.8] C:\Users\natha\.gradle\caches\8.11.1\transforms\a4a3c57650c64ec8c514e0c41686c418\transformed\ui-test-manifest-1.7.8\AndroidManifest.xml:24:13-63
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:24:9-28:63
+	android:exported
+		ADDED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:28:13-60
+	android:directBootAware
+		ADDED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:26:13-43
+	android:name
+		ADDED from [androidx.room:room-runtime:2.6.1] C:\Users\natha\.gradle\caches\8.11.1\transforms\4184916d11746f1f142cef7298521599\transformed\room-runtime-2.6.1\AndroidManifest.xml:25:13-74
 meta-data#androidx.profileinstaller.ProfileInstallerInitializer
 ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\natha\.gradle\caches\8.11.1\transforms\27279d6e8d6c256a499201da5b49f5b0\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
 	android:value
