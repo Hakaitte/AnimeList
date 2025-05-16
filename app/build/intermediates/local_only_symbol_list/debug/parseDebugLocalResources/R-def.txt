@@ -16,6 +16,8 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
 string blacklist_label
+string bottom_nav_profile
+string bottom_nav_search
 string category_screen_title
 string error
 string explicit_block

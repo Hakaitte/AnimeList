@@ -25,4 +25,6 @@
     <string name="joke_dialog_title_template">%1$s Joke</string>
     <string name="network_error">Network error</string>
     <string name="error">Error</string>
+    <string name="bottom_nav_search">Wyszukiwarka</string>
+    <string name="bottom_nav_profile">Profil</string>
 </resources>

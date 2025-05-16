@@ -23,6 +23,8 @@
     <color name="white">#FFFFFFFF</color>
     <string name="app_name">AnimeList</string>
     <string name="blacklist_label">Blacklist</string>
+    <string name="bottom_nav_profile">Profil</string>
+    <string name="bottom_nav_search">Wyszukiwarka</string>
     <string name="category_screen_title">Joke Categories</string>
     <string name="error">Error</string>
     <string name="explicit_block">explicit</string>

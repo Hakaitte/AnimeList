@@ -1,6 +1,7 @@
 package com.example.animeapp.ui.screens.anime // lub inna ścieżka
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +45,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.animeapp.model.Anime
@@ -51,6 +54,8 @@ import com.example.animeapp.model.AnimeResponse
 import com.example.animeapp.model.ImageUrls
 import com.example.animeapp.model.Images
 import com.example.animeapp.retrofit.RetrofitClient
+import com.example.animeapp.ui.reusableComponents.AnimeDetailDialog
+import com.example.animeapp.ui.reusableComponents.BottomNavigationBar
 import com.example.animeapp.ui.theme.AnimeAppTheme
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,15 +63,27 @@ import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnimeSearchScreen() {
+fun AnimeSearchScreen(navController: NavController) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     var animeList by remember { mutableStateOf<List<Anime>>(emptyList()) }
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var searchPerformed by remember { mutableStateOf(false) }
-    var isSfwChecked by remember { mutableStateOf(true) } // Stan dla Checkboxa SFW, domyślnie true
+    var isSfwChecked by remember { mutableStateOf(true) }
 
-    // Zaktualizowana funkcja performSearch, aby przyjmowała parametr sfw
+    var showAnimeDetailDialog by remember { mutableStateOf(false) }
+    var selectedAnimeForDialog by remember { mutableStateOf<Anime?>(null) }
+
+    val context = LocalContext.current // Pobierz kontekst dla Toast
+
+    // Funkcja obsługująca kliknięcie elementu
+    val handleAnimeClick = { anime: Anime ->
+        selectedAnimeForDialog = anime
+        showAnimeDetailDialog = true
+        Log.d("AnimeSearchScreen", "Clicked on: ${anime.title} (ID: ${anime.malId}) for dialog")
+        Unit
+    }
+
     fun performSearch(query: String, sfw: Boolean) {
         if (query.isBlank()) {
             animeList = emptyList()
@@ -89,7 +106,14 @@ fun AnimeSearchScreen() {
                     if (response.isSuccessful) {
                         val animeData = response.body()?.data
                         if (animeData != null) {
-                            animeList = animeData
+                            val uniqueAnimeData = animeData.distinctBy { it.malId }
+                            if (uniqueAnimeData.isEmpty() && animeData.isNotEmpty()){
+                                errorMessage = "Znaleziono duplikaty, wyświetlono tylko unikalne wyniki."
+                            } else {
+                                errorMessage = null
+                            }
+
+                            animeList = uniqueAnimeData
                             if (animeData.isEmpty()) {
                                 errorMessage = "Nie znaleziono wyników dla \"$query\"."
                             }
@@ -121,6 +145,8 @@ fun AnimeSearchScreen() {
             })
     }
 
+    val currentRoute = navController.currentDestination?.route
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -130,6 +156,9 @@ fun AnimeSearchScreen() {
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
+        },
+        bottomBar = {
+            BottomNavigationBar(navController = navController, currentRoute = currentRoute)
         }
     ) { paddingValues ->
         Column(
@@ -138,7 +167,6 @@ fun AnimeSearchScreen() {
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            // Zaktualizowany Row dla pola wyszukiwania i Checkboxa
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -147,18 +175,17 @@ fun AnimeSearchScreen() {
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
                     label = { Text("Szukaj anime...") },
-                    modifier = Modifier.weight(1f), // Pole tekstowe zajmuje dostępną przestrzeń
+                    modifier = Modifier.weight(1f),
                     singleLine = true
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                // Checkbox SFW z etykietą
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .clickable { isSfwChecked = !isSfwChecked } // Umożliwia kliknięcie na tekst
-                        .padding(horizontal = 4.dp) // Dodatkowy padding dla lepszego wyglądu
+                        .clickable { isSfwChecked = !isSfwChecked }
+                        .padding(horizontal = 4.dp)
                 ) {
                     Checkbox(
                         checked = isSfwChecked,
@@ -167,9 +194,9 @@ fun AnimeSearchScreen() {
                     Text("SFW", modifier = Modifier.padding(start = 4.dp))
                 }
 
-                Spacer(modifier = Modifier.width(2.dp)) // Mniejszy odstęp przed ikoną
+                Spacer(modifier = Modifier.width(2.dp))
 
-                IconButton(onClick = { performSearch(searchQuery.text, isSfwChecked) }) { // Przekaż stan Checkboxa
+                IconButton(onClick = { performSearch(searchQuery.text, isSfwChecked) }) {
                     Icon(Icons.Filled.Search, contentDescription = "Szukaj")
                 }
             }
@@ -189,7 +216,8 @@ fun AnimeSearchScreen() {
                     )
                 }
             } else if (animeList.isNotEmpty()) {
-                AnimeResultsList(animeList = animeList)
+                // Przekaż funkcję handleAnimeClick do AnimeResultsList
+                AnimeResultsList(animeList = animeList, onItemClick = handleAnimeClick)
             } else if (searchPerformed) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text("Brak wyników do wyświetlenia.")
@@ -199,25 +227,103 @@ fun AnimeSearchScreen() {
                     Text("Wpisz frazę i naciśnij przycisk wyszukiwania.")
                 }
             }
+
+            if (showAnimeDetailDialog && selectedAnimeForDialog != null) {
+                AnimeDetailDialog( // To powinno teraz odnosić się do funkcji z nowego pliku
+                    anime = selectedAnimeForDialog!!,
+                    onDismissRequest = { showAnimeDetailDialog = false },
+                    onAddToWatching = {
+                        Log.d(
+                            "AnimeDetailDialog",
+                            "Dodaj do 'Oglądam': ${selectedAnimeForDialog!!.title}"
+                        )
+                        showAnimeDetailDialog = false
+                        Toast.makeText(
+                            context,
+                            "${selectedAnimeForDialog!!.title} dodano do 'Oglądam'",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // TODO: Zaimplementuj logikę dodawania do bazy danych / ViewModelu
+                    },
+                    onAddToPlanning = {
+                        Log.d(
+                            "AnimeDetailDialog",
+                            "Dodaj do 'Planuję obejrzeć': ${selectedAnimeForDialog!!.title}"
+                        )
+                        showAnimeDetailDialog = false
+                        Toast.makeText(
+                            context,
+                            "${selectedAnimeForDialog!!.title} dodano do 'Planuję obejrzeć'",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // TODO: Zaimplementuj logikę
+                    },
+                    onAddToCompleted = {
+                        Log.d(
+                            "AnimeDetailDialog",
+                            "Dodaj do 'Obejrzane': ${selectedAnimeForDialog!!.title}"
+                        )
+                        showAnimeDetailDialog = false
+                        Toast.makeText(
+                            context,
+                            "${selectedAnimeForDialog!!.title} dodano do 'Obejrzane'",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // TODO: Zaimplementuj logikę
+                    },
+                    onAddToOnHold = {
+                        Log.d(
+                            "AnimeDetailDialog",
+                            "Dodaj do 'Wstrzymane': ${selectedAnimeForDialog!!.title}"
+                        )
+                        showAnimeDetailDialog = false
+                        Toast.makeText(
+                            context,
+                            "${selectedAnimeForDialog!!.title} dodano do 'Wstrzymane'",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // TODO: Zaimplementuj logikę
+                    },
+                    onAddToDropped = {
+                        Log.d(
+                            "AnimeDetailDialog",
+                            "Dodaj do 'Porzucone': ${selectedAnimeForDialog!!.title}"
+                        )
+                        showAnimeDetailDialog = false
+                        Toast.makeText(
+                            context,
+                            "${selectedAnimeForDialog!!.title} dodano do 'Porzucone'",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // TODO: Zaimplementuj logikę
+                    }
+                )
+            }
         }
     }
 }
 
+
+// AnimeResultsList i AnimeListItem jak zdefiniowano wcześniej,
+// z dodanymi parametrami onItemClick
+
 @Composable
-fun AnimeResultsList(animeList: List<Anime>) {
+fun AnimeResultsList(animeList: List<Anime>, onItemClick: (Anime) -> Unit) { // Zaktualizowano
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(animeList, key = { it.malId }) { anime ->
-            AnimeListItem(anime = anime)
+            AnimeListItem(anime = anime, onItemClick = onItemClick) // Zaktualizowano
         }
     }
 }
 
 @Composable
-fun AnimeListItem(anime: Anime) {
+fun AnimeListItem(anime: Anime, onItemClick: (Anime) -> Unit) { // Zaktualizowano
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onItemClick(anime) }, // Zaktualizowano
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
@@ -276,11 +382,11 @@ fun AnimeListItem(anime: Anime) {
 
 
 // --- Preview ---
-@Preview(showBackground = true, widthDp = 400) // Zwiększyłem szerokość dla lepszego podglądu
+@Preview(showBackground = true, widthDp = 400)
 @Composable
 fun AnimeSearchScreenPreview() {
     AnimeAppTheme {
-        AnimeSearchScreen()
+        AnimeSearchScreen(navController = rememberNavController())
     }
 }
 
@@ -330,8 +436,9 @@ fun AnimeListItemPreview() {
     )
     AnimeAppTheme {
         Column {
-            AnimeListItem(anime = sampleAnime)
-            AnimeListItem(anime = sampleAnime.copy(title = "Anime z bardzo długim tytułem, który powinien zostać przycięty", titleEnglish = "A very very long english title that also needs to be clipped somehow"))
+            AnimeListItem(anime = sampleAnime, onItemClick = {
+                Log.d("Preview", "Clicked ${it.title}")
+            })
         }
     }
 }

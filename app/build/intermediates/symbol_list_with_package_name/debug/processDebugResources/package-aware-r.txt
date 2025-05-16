@@ -208,6 +208,8 @@ mipmap ic_launcher_round
 string androidx_startup
 string app_name
 string blacklist_label
+string bottom_nav_profile
+string bottom_nav_search
 string call_notification_answer_action
 string call_notification_answer_video_action
 string call_notification_decline_action
