@@ -1,5 +1,6 @@
 package com.example.animeapp.ui.reusableComponents
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,7 @@ fun AnimeDetailDialog(
 ) {
     var selectedUiStatus by remember { mutableStateOf(initialStatus) }
     var currentRatingInDialog by remember { mutableStateOf(initialUserScore ?: 0) }
+    var showDescriptionDialog by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -77,6 +79,7 @@ fun AnimeDetailDialog(
                             .heightIn(min = 150.dp, max = 270.dp)
                             .padding(bottom = 16.dp)
                             .clip(RoundedCornerShape(12.dp))
+                            .clickable { showDescriptionDialog = true }
                     )
                 }
 
@@ -153,6 +156,12 @@ fun AnimeDetailDialog(
         },
         modifier = Modifier.padding(16.dp)
     )
+    if (showDescriptionDialog) {
+        AnimeDescriptionDialog(
+            animeId = anime.malId,
+            onDismissRequest = { showDescriptionDialog = false }
+        )
+    }
 }
 
 @Composable

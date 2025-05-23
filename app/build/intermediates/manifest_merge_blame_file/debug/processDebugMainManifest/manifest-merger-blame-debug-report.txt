@@ -35,11 +35,11 @@
 24        android:extractNativeLibs="false"
 25        android:fullBackupContent="@xml/backup_rules"
 25-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:8:9-54
-26        android:icon="@mipmap/ic_launcher"
-26-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:9:9-43
+26        android:icon="@drawable/icon_background"
+26-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:9:9-49
 27        android:label="@string/app_name"
 27-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:10:9-41
-28        android:roundIcon="@mipmap/ic_launcher_round"
+28        android:roundIcon="@drawable/icon_background"
 28-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:11:9-54
 29        android:supportsRtl="true"
 29-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:12:9-35

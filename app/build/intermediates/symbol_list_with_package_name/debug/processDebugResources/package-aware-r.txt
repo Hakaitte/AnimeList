@@ -88,6 +88,7 @@ drawable ic_call_decline
 drawable ic_call_decline_low
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable icon_background
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -205,6 +206,9 @@ layout notification_template_part_chronometer
 layout notification_template_part_time
 mipmap ic_launcher
 mipmap ic_launcher_round
+mipmap icon
+mipmap icon_foreground
+mipmap icon_round
 string androidx_startup
 string app_name
 string blacklist_label

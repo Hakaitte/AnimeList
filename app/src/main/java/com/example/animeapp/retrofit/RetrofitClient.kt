@@ -1,11 +1,13 @@
 package com.example.animeapp.retrofit
 
+import com.example.animeapp.model.AnimeDetailResponse
 import com.example.animeapp.model.AnimeResponse
 import com.squareup.moshi.Moshi
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 object RetrofitClient {
@@ -42,4 +44,9 @@ interface ApiService {
         @Query("limit") limit: Int = 25,
         @Query("order_by") orderBy: String = "rank"
     ): Call<AnimeResponse>
+
+    @GET("anime/{id}")
+    fun searchAnimeById(
+        @Path("id") id: Int
+    ): Call<AnimeDetailResponse>
 }

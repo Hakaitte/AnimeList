@@ -257,9 +257,8 @@ fun AnimeSearchScreen(
                         ).show()
                     },
                     onRemoveFromList = {
-                        // Logika wywołania ViewModelu do usunięcia
                         animeListViewModel.removeAnimeFromList(currentAnimeFromApi.malId)
-                        showAnimeDetailDialog = false // Zamknij dialog po akcji
+                        showAnimeDetailDialog = false
                         Toast.makeText(context, "${currentAnimeFromApi.title} usunięto z listy", Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -284,11 +283,11 @@ fun AnimeResultsList(animeList: List<Anime>, onItemClick: (Anime) -> Unit) { // 
 }
 
 @Composable
-fun AnimeListItem(anime: Anime, onItemClick: (Anime) -> Unit) { // Zaktualizowano
+fun AnimeListItem(anime: Anime, onItemClick: (Anime) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onItemClick(anime) }, // Zaktualizowano
+            .clickable { onItemClick(anime) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(

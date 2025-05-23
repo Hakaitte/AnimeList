@@ -12,8 +12,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CancelPresentation
 import androidx.compose.material.icons.filled.CheckCircleOutline
+import androidx.compose.material.icons.filled.DoNotDisturbOn
 import androidx.compose.material.icons.filled.PauseCircleOutline
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material.icons.filled.PlaylistPlay
@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -42,8 +44,6 @@ import com.example.animeapp.AnimeListViewModel
 import com.example.animeapp.data.UserAnimeStatus
 import com.example.animeapp.ui.reusableComponents.BottomNavigationBar
 import com.example.animeapp.ui.theme.AnimeAppTheme
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,11 +81,9 @@ fun UserProfileScreen(
                 .verticalScroll(rememberScrollState()), // Jeśli zawartość będzie większa
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Sekcja informacji o użytkowniku (placeholder)
-            // CircleShapeAvatarPlaceholder() // Możesz stworzyć taki Composable
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Hakaitte", // Zastąp rzeczywistą nazwą
+                text = "Profil użytkownika",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -103,56 +101,48 @@ fun UserProfileScreen(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Przyciski do list
             UserListButton(
                 text = "Oglądam",
                 icon = Icons.Filled.PlayCircleOutline,
-                // count = watchingCount, // Odkomentuj, gdy będziesz miał liczniki
+                count = watchingCount,
                 onClick = {
-                    // navController.navigate("anime_list_screen/${UserAnimeStatus.WATCHING.name}")
-                    // TODO: Zaimplementuj nawigację do ekranu listy "Oglądam"
-                    println("Przejdź do listy: Oglądam")
+                    navController.navigate("anime_list/${UserAnimeStatus.WATCHING.name}")
                 }
             )
 
             UserListButton(
                 text = "Planuję obejrzeć",
                 icon = Icons.Filled.PlaylistPlay,
-                // count = planningCount,
+                count = planningCount,
                 onClick = {
-                    // navController.navigate("anime_list_screen/${UserAnimeStatus.PLAN_TO_WATCH.name}")
-                    // TODO: Zaimplementuj nawigację do ekranu listy "Planuję"
-                    println("Przejdź do listy: Planuję obejrzeć")
+                    navController.navigate("anime_list/${UserAnimeStatus.PLAN_TO_WATCH.name}")
                 }
             )
 
             UserListButton(
                 text = "Obejrzane",
                 icon = Icons.Filled.CheckCircleOutline,
+                count = watchingCount,
                 onClick = {
-                    // navController.navigate("anime_list_screen/${UserAnimeStatus.COMPLETED.name}")
-                    // TODO: Zaimplementuj nawigację do ekranu listy "Obejrzane"
-                    println("Przejdź do listy: Obejrzane")
+                    navController.navigate("anime_list/${UserAnimeStatus.COMPLETED.name}")
                 }
             )
 
             UserListButton(
                 text = "Wstrzymane",
                 icon = Icons.Filled.PauseCircleOutline,
+                count = onHoldCount,
                 onClick = {
-                    // navController.navigate("anime_list_screen/${UserAnimeStatus.ON_HOLD.name}")
-                    // TODO: Zaimplementuj nawigację do ekranu listy "Wstrzymane"
-                    println("Przejdź do listy: Wstrzymane")
+                    navController.navigate("anime_list/${UserAnimeStatus.ON_HOLD.name}")
                 }
             )
 
             UserListButton(
                 text = "Porzucone",
-                icon = Icons.Filled.CancelPresentation, // lub Icons.Filled.DoNotDisturbOn
+                icon = Icons.Filled.DoNotDisturbOn,
+                count = droppedCount,
                 onClick = {
-                    // navController.navigate("anime_list_screen/${UserAnimeStatus.DROPPED.name}")
-                    // TODO: Zaimplementuj nawigację do ekranu listy "Porzucone"
-                    println("Przejdź do listy: Porzucone")
+                    navController.navigate("anime_list/${UserAnimeStatus.DROPPED.name}")
                 }
             )
         }

@@ -12,8 +12,12 @@ color teal_700
 color white
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable icon_background
 mipmap ic_launcher
 mipmap ic_launcher_round
+mipmap icon
+mipmap icon_foreground
+mipmap icon_round
 string app_name
 string blacklist_label
 string bottom_nav_profile
