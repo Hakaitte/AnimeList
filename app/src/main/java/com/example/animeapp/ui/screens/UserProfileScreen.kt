@@ -122,7 +122,7 @@ fun UserProfileScreen(
             UserListButton(
                 text = "Obejrzane",
                 icon = Icons.Filled.CheckCircleOutline,
-                count = watchingCount,
+                count = watchedCount,
                 onClick = {
                     navController.navigate("anime_list/${UserAnimeStatus.COMPLETED.name}")
                 }

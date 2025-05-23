@@ -89,7 +89,11 @@ fun AnimeDescriptionDialog(
                     a.trailer?.url?.let { trailerUrl ->
                         item {
                             Spacer(modifier = Modifier.height(8.dp))
-                            Button(onClick = { /* TODO: Otwórz zwiastun */ }) {
+                            val context = LocalContext.current
+                            Button(onClick = {
+                                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(trailerUrl))
+                                context.startActivity(intent)
+                            }) {
                                 Text("Zobacz zwiastun")
                             }
                         }
