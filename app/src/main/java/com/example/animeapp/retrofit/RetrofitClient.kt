@@ -1,6 +1,7 @@
 package com.example.animeapp.retrofit
 
 import com.example.animeapp.model.AnimeDetailResponse
+import com.example.animeapp.model.AnimeRecommendationsResponse
 import com.example.animeapp.model.AnimeResponse
 import com.squareup.moshi.Moshi
 import retrofit2.Call
@@ -49,4 +50,8 @@ interface ApiService {
     fun searchAnimeById(
         @Path("id") id: Int
     ): Call<AnimeDetailResponse>
+
+    @GET("recommendations/anime")
+    fun getAnimeRecommendations(
+    ): Call<AnimeRecommendationsResponse>
 }

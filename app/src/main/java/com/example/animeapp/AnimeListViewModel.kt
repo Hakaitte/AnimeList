@@ -14,7 +14,6 @@ class AnimeListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val userAnimeDao = AppDatabase.getDatabase(application).userAnimeDao()
 
-    // Funkcja do pobierania statusu i oceny dla konkretnego anime
     fun getUserAnimeDetails(malId: Int): Flow<UserAnimeEntity?> {
         return userAnimeDao.getAnimeById(malId)
     }
@@ -35,9 +34,7 @@ class AnimeListViewModel(application: Application) : AndroidViewModel(applicatio
                     ?: animeFromApi.images.webp.largeImageUrl
                     ?: animeFromApi.images.webp.imageUrl,
                 status = status,
-                userScore = userScore ?: existingEntity?.userScore, // Zachowaj starą ocenę
-                // Jeśli existingEntity istnieje, możesz chcieć zachować jego addedDate
-                // lub episodesWatched, jeśli je implementujesz i nie są aktualizowane
+                userScore = userScore ?: existingEntity?.userScore,
                 addedDate = existingEntity?.addedDate ?: System.currentTimeMillis()
             )
             userAnimeDao.insertOrUpdateAnime(entity)

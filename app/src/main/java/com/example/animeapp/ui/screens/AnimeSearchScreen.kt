@@ -226,7 +226,7 @@ fun AnimeSearchScreen(
                 }
             } else {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Wpisz frazę i naciśnij przycisk wyszukiwania.")
+                    AnimeRecommendationsView()
                 }
             }
 

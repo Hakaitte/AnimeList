@@ -36,7 +36,6 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "anime_app_database"
                 )
-                    // W przyszłości można dodać migracje: .addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
                 instance

@@ -22,7 +22,7 @@ public class PaginationJsonAdapter(
   moshi: Moshi,
 ) : JsonAdapter<Pagination>() {
   private val options: JsonReader.Options = JsonReader.Options.of("last_visible_page",
-      "has_next_page", "current_page", "items")
+      "has_next_page")
 
   private val intAdapter: JsonAdapter<Int> = moshi.adapter(Int::class.java, emptySet(),
       "lastVisiblePage")
@@ -30,17 +30,12 @@ public class PaginationJsonAdapter(
   private val booleanAdapter: JsonAdapter<Boolean> = moshi.adapter(Boolean::class.java, emptySet(),
       "hasNextPage")
 
-  private val itemsAdapter: JsonAdapter<Items> = moshi.adapter(Items::class.java, emptySet(),
-      "items")
-
   override fun toString(): String = buildString(32) {
       append("GeneratedJsonAdapter(").append("Pagination").append(')') }
 
   override fun fromJson(reader: JsonReader): Pagination {
     var lastVisiblePage: Int? = null
     var hasNextPage: Boolean? = null
-    var currentPage: Int? = null
-    var items: Items? = null
     reader.beginObject()
     while (reader.hasNext()) {
       when (reader.selectName(options)) {
@@ -48,10 +43,6 @@ public class PaginationJsonAdapter(
             throw Util.unexpectedNull("lastVisiblePage", "last_visible_page", reader)
         1 -> hasNextPage = booleanAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("hasNextPage", "has_next_page", reader)
-        2 -> currentPage = intAdapter.fromJson(reader) ?: throw Util.unexpectedNull("currentPage",
-            "current_page", reader)
-        3 -> items = itemsAdapter.fromJson(reader) ?: throw Util.unexpectedNull("items", "items",
-            reader)
         -1 -> {
           // Unknown name, skip it.
           reader.skipName()
@@ -64,10 +55,7 @@ public class PaginationJsonAdapter(
         lastVisiblePage = lastVisiblePage ?: throw Util.missingProperty("lastVisiblePage",
             "last_visible_page", reader),
         hasNextPage = hasNextPage ?: throw Util.missingProperty("hasNextPage", "has_next_page",
-            reader),
-        currentPage = currentPage ?: throw Util.missingProperty("currentPage", "current_page",
-            reader),
-        items = items ?: throw Util.missingProperty("items", "items", reader)
+            reader)
     )
   }
 
@@ -80,10 +68,6 @@ public class PaginationJsonAdapter(
     intAdapter.toJson(writer, value_.lastVisiblePage)
     writer.name("has_next_page")
     booleanAdapter.toJson(writer, value_.hasNextPage)
-    writer.name("current_page")
-    intAdapter.toJson(writer, value_.currentPage)
-    writer.name("items")
-    itemsAdapter.toJson(writer, value_.items)
     writer.endObject()
   }
 }
