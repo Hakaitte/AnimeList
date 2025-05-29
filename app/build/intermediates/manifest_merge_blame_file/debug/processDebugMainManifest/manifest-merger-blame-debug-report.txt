@@ -39,8 +39,8 @@
 26-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:9:9-47
 27        android:label="@string/app_name"
 27-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:10:9-41
-28        android:roundIcon="@mipmap/icon_foreground"
-28-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:11:9-52
+28        android:roundIcon="@mipmap/icon_round"
+28-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:11:9-47
 29        android:supportsRtl="true"
 29-->C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:12:9-35
 30        android:testOnly="true"

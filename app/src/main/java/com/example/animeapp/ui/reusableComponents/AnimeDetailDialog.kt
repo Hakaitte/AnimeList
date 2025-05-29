@@ -39,7 +39,6 @@ fun AnimeDetailDialog(
     initialStatus: UserAnimeStatus,
     onDismissRequest: () -> Unit,
     onStatusChange: (newStatus: UserAnimeStatus, newScore: Int?) -> Unit,
-    onRemoveFromList: () -> Unit
 ) {
     var selectedUiStatus by remember { mutableStateOf(initialStatus) }
     var currentRatingInDialog by remember { mutableStateOf(initialUserScore ?: 0) }
@@ -72,7 +71,7 @@ fun AnimeDetailDialog(
                             .error(android.R.drawable.stat_notify_error)
                             .placeholder(android.R.drawable.stat_sys_download)
                             .build(),
-                        contentDescription = "Plakat ${anime.title}",
+                        contentDescription = "Poster ${anime.title}",
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -89,15 +88,13 @@ fun AnimeDetailDialog(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Twoja ocena: ${if (currentRatingInDialog > 0) "${currentRatingInDialog / 2.0} / 5.0" else "Brak"}",
+                            text = "Twoja ocena: ${if (currentRatingInDialog > 0) "${currentRatingInDialog / 2.0} / 5.0" else "None"}",
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(bottom = 6.dp)
                         )
-                        StarRatingInput( // Użycie komponentu
-                            rating = currentRatingInDialog, // Przekazanie aktualnej oceny z dialogu
-                            onRatingChange = { newRating -> // Implementacja callbacku
-                                // Gdy StarRatingInput wywoła onRatingChange,
-                                // aktualizujemy stan `currentRatingInDialog` w AnimeDetailDialog
+                        StarRatingInput(
+                            rating = currentRatingInDialog,
+                            onRatingChange = { newRating ->
                                 currentRatingInDialog = newRating
                             },
                             starSize = 32.dp
@@ -140,18 +137,17 @@ fun AnimeDetailDialog(
                             onStatusChange(statusToSave, currentRatingInDialog) // Przykład: Pozwól zapisać NONE, jeśli tak zdecydujesz
                         }
                     } else if (initialStatus == UserAnimeStatus.NONE && selectedUiStatus != UserAnimeStatus.NONE) {
-                        // Dodawanie nowego, jeśli wcześniej był NONE
                         onStatusChange(selectedUiStatus, currentRatingInDialog)
                     }
                     onDismissRequest()
                 }
             ) {
-                Text("Zastosuj")
+                Text("Confirm")
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text("Anuluj")
+                Text("Cancel")
             }
         },
         modifier = Modifier.padding(16.dp)

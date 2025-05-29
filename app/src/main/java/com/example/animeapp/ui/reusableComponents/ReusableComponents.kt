@@ -63,9 +63,9 @@ import com.example.animeapp.ui.theme.AnimeAppTheme
  */
 
 data class BottomNavItem(
-    val labelResId: Int, // ID zasobu string
+    val labelResId: Int,
     val icon: ImageVector,
-    val route: String // Ścieżka nawigacji
+    val route: String
 )
 
 @Composable
@@ -204,9 +204,6 @@ fun ExposedDropdownMenu(
     modifier: Modifier = Modifier,
     onOptionSelected: (Int) -> Unit = {}
 ) {
-    // The expanded and textValues states of the dropdown menu
-    // can reside inside the ExposedDropdownMenu composable, because the selection is handled
-    // by the onOptionSelected callback.
     var expanded by remember { mutableStateOf(false) }
     var textValue by remember { mutableStateOf(options[selectedIndex]) }
 
@@ -218,16 +215,11 @@ fun ExposedDropdownMenu(
         TextField(
             value = textValue,
             onValueChange = {    },
-            // The `menuAnchor` modifier must be passed to the text field to handle
-            // expanding/collapsing the menu on click. A read-only text field has
-            // the anchor type `PrimaryNotEditable`.
             modifier = Modifier
                 .menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
-            // The text field is read-only because the user selects an option
-            // from the dropdown menu
             readOnly = true,
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
             singleLine = true,
@@ -325,7 +317,6 @@ fun ChipGroupReflow(
             ) {
                 VerticalDivider()
             }
-            // Create the chips using the options list and set the selection with the selectionState list
             options.fastForEachIndexed { index, element ->
                 FilterChip(
                     selected = selectionState[index],

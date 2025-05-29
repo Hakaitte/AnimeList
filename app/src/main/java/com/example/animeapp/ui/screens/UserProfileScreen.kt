@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.animeapp.AnimeListViewModel
+import com.example.animeapp.R
 import com.example.animeapp.data.UserAnimeStatus
 import com.example.animeapp.ui.reusableComponents.BottomNavigationBar
 import com.example.animeapp.ui.theme.AnimeAppTheme
@@ -62,7 +64,7 @@ fun UserProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Mój Profil Anime") },
+                title = { Text(stringResource(id = R.string.my_anime_profile)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -78,31 +80,31 @@ fun UserProfileScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()), // Jeśli zawartość będzie większa
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Profil użytkownika",
+                text = stringResource(id = R.string.user_profile),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Statystyki: $watchedCount obejrzanych, $planningCount w planach", // Zastąp rzeczywistymi statystykami
+                text = stringResource(id = R.string.statistics, watchedCount, planningCount),
                 style = MaterialTheme.typography.bodyMedium
             )
 
             Divider(modifier = Modifier.padding(vertical = 24.dp))
 
             Text(
-                text = "Moje Listy Anime",
+                text = stringResource(id = R.string.my_anime_lists),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
             UserListButton(
-                text = "Oglądam",
+                text = stringResource(id = R.string.watching),
                 icon = Icons.Filled.PlayCircleOutline,
                 count = watchingCount,
                 onClick = {
@@ -111,7 +113,7 @@ fun UserProfileScreen(
             )
 
             UserListButton(
-                text = "Planuję obejrzeć",
+                text = stringResource(id = R.string.plan_to_watch),
                 icon = Icons.Filled.PlaylistPlay,
                 count = planningCount,
                 onClick = {
@@ -120,7 +122,7 @@ fun UserProfileScreen(
             )
 
             UserListButton(
-                text = "Obejrzane",
+                text = stringResource(id = R.string.completed),
                 icon = Icons.Filled.CheckCircleOutline,
                 count = watchedCount,
                 onClick = {
@@ -129,7 +131,7 @@ fun UserProfileScreen(
             )
 
             UserListButton(
-                text = "Wstrzymane",
+                text = stringResource(id = R.string.on_hold),
                 icon = Icons.Filled.PauseCircleOutline,
                 count = onHoldCount,
                 onClick = {
@@ -138,7 +140,7 @@ fun UserProfileScreen(
             )
 
             UserListButton(
-                text = "Porzucone",
+                text = stringResource(id = R.string.dropped),
                 icon = Icons.Filled.DoNotDisturbOn,
                 count = droppedCount,
                 onClick = {
@@ -154,7 +156,7 @@ private fun UserListButton(
     text: String,
     icon: ImageVector,
     onClick: () -> Unit,
-    count: Int? = null // Opcjonalny licznik
+    count: Int? = null
 ) {
     Button(
         onClick = onClick,
@@ -182,8 +184,6 @@ private fun UserListButton(
 @Composable
 fun UserProfileScreenPreview() {
     AnimeAppTheme {
-        // W podglądzie nie mamy rzeczywistego NavControllera ani ViewModelu
-        // Możemy przekazać mocki lub pominąć, jeśli logika nie jest kluczowa dla wyglądu
         UserProfileScreen(
             navController = rememberNavController(),
             animeListViewModel = viewModel()

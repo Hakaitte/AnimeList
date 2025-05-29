@@ -118,7 +118,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\na
 	android:fullBackupContent
 		ADDED from C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:8:9-54
 	android:roundIcon
-		ADDED from C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:11:9-52
+		ADDED from C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:11:9-47
 	tools:targetApi
 		ADDED from C:\Users\natha\StudioProjects\AnimeList\app\src\main\AndroidManifest.xml:14:9-29
 	android:icon

@@ -32,7 +32,7 @@ data class Anime(
     val aired: Aired,
     val duration: String?,
     val rating: String?,
-    val score: Double?,
+    val score: Double,
     @Json(name = "scored_by") val scoredBy: Int?,
     val rank: Int?,
     val popularity: Int?,

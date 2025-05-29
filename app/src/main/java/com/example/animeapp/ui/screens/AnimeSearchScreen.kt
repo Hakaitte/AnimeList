@@ -40,9 +40,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -52,15 +52,13 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.animeapp.AnimeListViewModel
+import com.example.animeapp.R
 import com.example.animeapp.data.UserAnimeStatus
 import com.example.animeapp.model.Anime
 import com.example.animeapp.model.AnimeResponse
-import com.example.animeapp.model.ImageUrls
-import com.example.animeapp.model.Images
 import com.example.animeapp.retrofit.RetrofitClient
 import com.example.animeapp.ui.reusableComponents.AnimeDetailDialog
 import com.example.animeapp.ui.reusableComponents.BottomNavigationBar
-import com.example.animeapp.ui.theme.AnimeAppTheme
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -89,7 +87,7 @@ fun AnimeSearchScreen(
     fun performSearch(query: String, sfw: Boolean) {
         if (query.isBlank()) {
             animeList = emptyList()
-            errorMessage = "Wprowadź tytuł do wyszukania."
+            errorMessage = context.getString(R.string.enter_title_to_search)
             searchPerformed = false
             return
         }
@@ -110,27 +108,27 @@ fun AnimeSearchScreen(
                         if (animeData != null) {
                             val uniqueAnimeData = animeData.distinctBy { it.malId }
                             if (uniqueAnimeData.isEmpty() && animeData.isNotEmpty()){
-                                errorMessage = "Znaleziono duplikaty, wyświetlono tylko unikalne wyniki."
+                                errorMessage = context.getString(R.string.duplicates_found)
                             } else {
                                 errorMessage = null
                             }
 
                             animeList = uniqueAnimeData
                             if (animeData.isEmpty()) {
-                                errorMessage = "Nie znaleziono wyników dla \"$query\"."
+                                errorMessage = context.getString(R.string.no_results_for, query)
                             }
                         } else {
                             animeList = emptyList()
-                            errorMessage = "Otrzymano pustą odpowiedź."
+                            errorMessage = context.getString(R.string.empty_response)
                         }
                     } else {
                         animeList = emptyList()
-                        errorMessage = "Błąd: ${response.code()} - ${response.message()}"
+                        errorMessage = context.getString(R.string.error_code_message, response.code(), response.message())
                         try {
                             val errorBody = response.errorBody()?.string()
                             Log.e("AnimeSearchScreen", "Error Body: $errorBody")
                             if (!errorBody.isNullOrBlank()) {
-                                errorMessage += "\nSzczegóły: $errorBody"
+                                errorMessage += "\n" + context.getString(R.string.details, errorBody)
                             }
                         } catch (e: Exception) {
                             Log.e("AnimeSearchScreen", "Error parsing error body", e)
@@ -141,7 +139,7 @@ fun AnimeSearchScreen(
                 override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
                     isLoading = false
                     animeList = emptyList()
-                    errorMessage = "Błąd połączenia: ${t.message}"
+                    errorMessage = context.getString(R.string.connection_error, t.message ?: "")
                     Log.e("AnimeSearchScreen", "API Call Failed", t)
                 }
             })
@@ -152,7 +150,7 @@ fun AnimeSearchScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Wyszukiwarka Anime") },
+                title = { Text(stringResource(id = R.string.anime_search_title)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -176,7 +174,7 @@ fun AnimeSearchScreen(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    label = { Text("Szukaj anime...") },
+                    label = { Text(stringResource(id = R.string.search_anime_label)) },
                     modifier = Modifier.weight(1f),
                     singleLine = true
                 )
@@ -193,13 +191,13 @@ fun AnimeSearchScreen(
                         checked = isSfwChecked,
                         onCheckedChange = { isSfwChecked = it }
                     )
-                    Text("SFW", modifier = Modifier.padding(start = 4.dp))
+                    Text(stringResource(id = R.string.sfw), modifier = Modifier.padding(start = 4.dp))
                 }
 
                 Spacer(modifier = Modifier.width(2.dp))
 
                 IconButton(onClick = { performSearch(searchQuery.text, isSfwChecked) }) {
-                    Icon(Icons.Filled.Search, contentDescription = "Szukaj")
+                    Icon(Icons.Filled.Search, contentDescription = stringResource(id = R.string.search))
                 }
             }
 
@@ -218,11 +216,10 @@ fun AnimeSearchScreen(
                     )
                 }
             } else if (animeList.isNotEmpty()) {
-                // Przekaż funkcję handleAnimeClick do AnimeResultsList
                 AnimeResultsList(animeList = animeList, onItemClick = handleAnimeClick)
             } else if (searchPerformed) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Brak wyników do wyświetlenia.")
+                    Text(stringResource(id = R.string.no_results_to_display))
                 }
             } else {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -236,40 +233,29 @@ fun AnimeSearchScreen(
                 val userAnimeEntityFromDb by animeListViewModel.getUserAnimeDetails(currentAnimeFromApi.malId)
                     .collectAsStateWithLifecycle(initialValue = null)
 
-                // Wywołanie AnimeDetailDialog z poprawnymi parametrami
-                AnimeDetailDialog( // Nazwa funkcji musi pasować do tej zdefiniowanej w AnimeDetailDialog.kt
+                AnimeDetailDialog(
                     anime = currentAnimeFromApi,
                     initialUserScore = userAnimeEntityFromDb?.userScore,
                     initialStatus = userAnimeEntityFromDb?.status ?: UserAnimeStatus.NONE,
                     onDismissRequest = { showAnimeDetailDialog = false },
                     onStatusChange = { newStatus, newScore ->
-                        // Logika wywołania ViewModelu do zapisu/aktualizacji
                         animeListViewModel.addOrUpdateUserAnime(
                             animeFromApi = currentAnimeFromApi,
                             status = newStatus,
                             userScore = newScore
                         )
-                        showAnimeDetailDialog = false // Zamknij dialog po akcji
+                        showAnimeDetailDialog = false
                         Toast.makeText(
                             context,
-                            "${currentAnimeFromApi.title} zapisano jako: ${newStatus.name.lowercase().replaceFirstChar { it.titlecase() }}, Ocena: ${newScore ?: "Brak"}",
+                            "${currentAnimeFromApi.title} saved as: ${newStatus.name.lowercase().replaceFirstChar { it.titlecase() }}",
                             Toast.LENGTH_SHORT
                         ).show()
-                    },
-                    onRemoveFromList = {
-                        animeListViewModel.removeAnimeFromList(currentAnimeFromApi.malId)
-                        showAnimeDetailDialog = false
-                        Toast.makeText(context, "${currentAnimeFromApi.title} usunięto z listy", Toast.LENGTH_SHORT).show()
                     }
                 )
             }
         }
     }
 }
-
-
-// AnimeResultsList i AnimeListItem jak zdefiniowano wcześniej,
-// z dodanymi parametrami onItemClick
 
 @Composable
 fun AnimeResultsList(animeList: List<Anime>, onItemClick: (Anime) -> Unit) { // Zaktualizowano
@@ -344,65 +330,3 @@ fun AnimeListItem(anime: Anime, onItemClick: (Anime) -> Unit) {
     }
 }
 
-
-// --- Preview ---
-@Preview(showBackground = true, widthDp = 400)
-@Composable
-fun AnimeSearchScreenPreview() {
-    AnimeAppTheme {
-        AnimeSearchScreen(navController = rememberNavController())
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AnimeListItemPreview() {
-    val sampleAnime = Anime(
-        malId = 1,
-        url = "url",
-        images = Images(
-            jpg = ImageUrls(imageUrl = "https://cdn.myanimelist.net/images/anime/10/47347.jpg", smallImageUrl = null, largeImageUrl = null),
-            webp = ImageUrls(imageUrl = "https://cdn.myanimelist.net/images/anime/10/47347.webp", smallImageUrl = null, largeImageUrl = null)
-        ),
-        trailer = com.example.animeapp.model.Trailer(null, null, null, com.example.animeapp.model.TrailerImages(null, null, null, null, null)),
-        approved = true,
-        titles = listOf(com.example.animeapp.model.Title("Default", "Cowboy Bebop")),
-        title = "Cowboy Bebop",
-        titleEnglish = "Cowboy Bebop",
-        titleJapanese = "カウボーイビバップ",
-        titleSynonyms = emptyList(),
-        type = "TV",
-        source = "Original",
-        episodes = 26,
-        status = "Finished Airing",
-        airing = false,
-        aired = com.example.animeapp.model.Aired(null, null, com.example.animeapp.model.AiredProp(com.example.animeapp.model.AiredDate(null,null,null), com.example.animeapp.model.AiredDate(null,null,null)), null),
-        duration = "24 min per ep",
-        rating = "R - 17+ (violence & profanity)",
-        score = 8.75,
-        scoredBy = 900000,
-        rank = 30,
-        popularity = 40,
-        members = 1800000,
-        favorites = 70000,
-        synopsis = "In the year 2071, humanity has colonized several of the planets and moons of the solar system leaving the now uninhabitable surface of planet Earth behind...",
-        background = null,
-        season = "spring",
-        year = 1998,
-        broadcast = null,
-        producers = emptyList(),
-        licensors = emptyList(),
-        studios = emptyList(),
-        genres = emptyList(),
-        explicitGenres = emptyList(),
-        themes = emptyList(),
-        demographics = emptyList()
-    )
-    AnimeAppTheme {
-        Column {
-            AnimeListItem(anime = sampleAnime, onItemClick = {
-                Log.d("Preview", "Clicked ${it.title}")
-            })
-        }
-    }
-}

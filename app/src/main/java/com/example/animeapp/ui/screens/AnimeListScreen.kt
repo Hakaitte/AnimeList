@@ -38,12 +38,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.animeapp.AnimeListViewModel
+import com.example.animeapp.R
 import com.example.animeapp.data.UserAnimeEntity
 import com.example.animeapp.data.UserAnimeStatus
 import com.example.animeapp.ui.reusableComponents.StarRatingInput
@@ -66,10 +68,10 @@ fun AnimeListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista: ${status.displayName()}") },
+                title = { Text(stringResource(id = R.string.list_title, status.displayNameRes())) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Wróć")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(id = R.string.back))
                     }
                 }
             )
@@ -99,7 +101,8 @@ fun AnimeListScreen(
         selectedAnimeId?.let { animeId ->
             com.example.animeapp.ui.reusableComponents.AnimeDescriptionDialog(
                 animeId = animeId,
-                onDismissRequest = { selectedAnimeId = null }
+                onDismissRequest = { selectedAnimeId = null },
+                showAddToListButton = false
             )
         }
     }
@@ -137,10 +140,10 @@ fun AnimeListItem(
                 ->
                 val dividedScore = score / 2.0
                 String.format(java.util.Locale.US, "%.1f", dividedScore)
-            } ?: "Brak"
-            Text("Ocena: $formattedScore")
+            } ?: "None"
+            Text(stringResource(id = R.string.score, formattedScore))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Status: ${anime.status.displayName()}")
+                Text(stringResource(id = R.string.status, anime.status.displayNameRes()))
                 Spacer(Modifier.size(8.dp))
             }
             val formattedDate: String? = anime.addedDate.let { millis ->
@@ -150,15 +153,15 @@ fun AnimeListItem(
                 val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss")
                 localDateTime.format(formatter)
             }
-            Text("Data modyfikacji: ${formattedDate}")
+            Text(stringResource(id = R.string.modification_date, formattedDate ?: ""))
             Row(modifier = Modifier.padding(top = 8.dp)) {
                 Button(onClick = { showEditDialog = true }, modifier = Modifier.weight(1f)) {
-                    Text("Zmień ocenę")
+                    Text(stringResource(id = R.string.change_score))
                 }
                 Spacer(modifier = Modifier.size(8.dp))
                 Box {
                     Button(onClick = { showStatusMenu = true }) {
-                        Text("Zmień status")
+                        Text(stringResource(id = R.string.change_status))
                     }
                     DropdownMenu(
                         expanded = showStatusMenu,
@@ -166,7 +169,7 @@ fun AnimeListItem(
                     ) {
                         UserAnimeStatus.values().filter { it != anime.status && it != UserAnimeStatus.NONE }.forEach { statusOption ->
                             DropdownMenuItem(
-                                text = { Text(statusOption.displayName()) },
+                                text = { Text(statusOption.displayNameRes()) },
                                 onClick = {
                                     onUpdateStatus(statusOption)
                                     showStatusMenu = false
@@ -182,7 +185,7 @@ fun AnimeListItem(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Delete,
-                        contentDescription = "Usuń",
+                        contentDescription = stringResource(id = R.string.delete),
                         tint = MaterialTheme.colorScheme.error
                     )
                 }
@@ -192,42 +195,42 @@ fun AnimeListItem(
     if (showEditDialog) {
         AlertDialog(
             onDismissRequest = { showEditDialog = false },
-            title = { Text("Zmień ocenę dla: ${anime.title}") },
+            title = { Text(stringResource(id = R.string.change_score_for, anime.title)) },
             text = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Nowa ocena:")
+                    Text(stringResource(id = R.string.new_score))
                     StarRatingInput(
                         rating = newScore,
                         onRatingChange = { value -> newScore = value },
                         starSize = 38.dp
                     )
-                    Text("${newScore / 2.0} / 5.0", modifier = Modifier.padding(top = 8.dp))
+                    Text(stringResource(id = R.string.score_out_of, newScore / 2.0))
                 }
             },
             confirmButton = {
                 TextButton(onClick = {
                     onUpdateScore(newScore)
                     showEditDialog = false
-                }) { Text("Zapisz") }
+                }) { Text(stringResource(id = R.string.save)) }
             },
             dismissButton = {
-                TextButton(onClick = { showEditDialog = false }) { Text("Anuluj") }
+                TextButton(onClick = { showEditDialog = false }) { Text(stringResource(id = R.string.cancel)) }
             }
         )
     }
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Potwierdź usunięcie") },
-            text = { Text("Czy na pewno chcesz usunąć anime z listy?") },
+            title = { Text(stringResource(id = R.string.confirm_delete)) },
+            text = { Text(stringResource(id = R.string.confirm_delete_text)) },
             confirmButton = {
                 TextButton(onClick = {
                     onRemove()
                     showDeleteDialog = false
-                }) { Text("Usuń") }
+                }) { Text(stringResource(id = R.string.delete)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) { Text("Anuluj") }
+                TextButton(onClick = { showDeleteDialog = false }) { Text(stringResource(id = R.string.cancel)) }
             }
         )
     }
@@ -242,11 +245,11 @@ fun AnimeListViewModel.getAnimeByStatus(status: UserAnimeStatus) = when (status)
     else -> getWatchingAnime()
 }
 
-fun UserAnimeStatus.displayName(): String = when(this) {
-    UserAnimeStatus.WATCHING -> "Oglądam"
-    UserAnimeStatus.PLAN_TO_WATCH -> "Planuję obejrzeć"
-    UserAnimeStatus.COMPLETED -> "Obejrzane"
-    UserAnimeStatus.ON_HOLD -> "Wstrzymane"
-    UserAnimeStatus.DROPPED -> "Porzucone"
-    else -> name
-}
+fun UserAnimeStatus.displayNameRes(): String = when(this) {
+    UserAnimeStatus.WATCHING -> "Watching"
+    UserAnimeStatus.PLAN_TO_WATCH -> "Plan to Watch"
+    UserAnimeStatus.COMPLETED -> "Completed"
+    UserAnimeStatus.ON_HOLD -> "On Hold"
+    UserAnimeStatus.DROPPED -> "Dropped"
+    else -> R.string.unknown
+}.toString()

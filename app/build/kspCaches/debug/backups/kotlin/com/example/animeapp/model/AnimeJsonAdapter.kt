@@ -62,8 +62,8 @@ public class AnimeJsonAdapter(
   private val airedAdapter: JsonAdapter<Aired> = moshi.adapter(Aired::class.java, emptySet(),
       "aired")
 
-  private val nullableDoubleAdapter: JsonAdapter<Double?> =
-      moshi.adapter(Double::class.javaObjectType, emptySet(), "score")
+  private val doubleAdapter: JsonAdapter<Double> = moshi.adapter(Double::class.java, emptySet(),
+      "score")
 
   private val nullableBroadcastAdapter: JsonAdapter<Broadcast?> =
       moshi.adapter(Broadcast::class.java, emptySet(), "broadcast")
@@ -142,7 +142,8 @@ public class AnimeJsonAdapter(
             reader)
         16 -> duration = nullableStringAdapter.fromJson(reader)
         17 -> rating = nullableStringAdapter.fromJson(reader)
-        18 -> score = nullableDoubleAdapter.fromJson(reader)
+        18 -> score = doubleAdapter.fromJson(reader) ?: throw Util.unexpectedNull("score", "score",
+            reader)
         19 -> scoredBy = nullableIntAdapter.fromJson(reader)
         20 -> rank = nullableIntAdapter.fromJson(reader)
         21 -> popularity = nullableIntAdapter.fromJson(reader)
@@ -195,7 +196,7 @@ public class AnimeJsonAdapter(
         aired = aired ?: throw Util.missingProperty("aired", "aired", reader),
         duration = duration,
         rating = rating,
-        score = score,
+        score = score ?: throw Util.missingProperty("score", "score", reader),
         scoredBy = scoredBy,
         rank = rank,
         popularity = popularity,
@@ -260,7 +261,7 @@ public class AnimeJsonAdapter(
     writer.name("rating")
     nullableStringAdapter.toJson(writer, value_.rating)
     writer.name("score")
-    nullableDoubleAdapter.toJson(writer, value_.score)
+    doubleAdapter.toJson(writer, value_.score)
     writer.name("scored_by")
     nullableIntAdapter.toJson(writer, value_.scoredBy)
     writer.name("rank")

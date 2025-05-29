@@ -20,8 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.animeapp.R
 import com.example.animeapp.model.AnimeEntry
 import com.example.animeapp.retrofit.RetrofitClient
 import com.example.animeapp.ui.reusableComponents.AnimeDescriptionDialog
@@ -70,7 +72,7 @@ fun AnimeRecommendationsView() {
     if (recommendations.isNotEmpty()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Recommended Series",
+                text = stringResource(id = R.string.recommended_series),
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -97,7 +99,7 @@ fun AnimeRecommendationsView() {
             }
         }
     } else {
-        Text("Ładowanie rekomendacji...")
+        Text(stringResource(id = R.string.loading_recommendations))
     }
 
     if (showDialog && selectedAnimeId != null) {
